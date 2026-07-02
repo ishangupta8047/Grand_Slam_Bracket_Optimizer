@@ -1,0 +1,2924 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Wimbledon 2026 Optimized Brackets</title>
+<style>
+    :root {
+        --green: #0B3D2E;
+        --light-green: #EAF4EA;
+        --gold: #D6B25E;
+        --gray: #667085;
+        --border: #D9E2D6;
+        --bg: #F7F9F5;
+        --card: #FFFFFF;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--bg);
+        color: #172B22;
+    }
+
+    header {
+        background: linear-gradient(135deg, var(--green), #176B4D);
+        color: white;
+        padding: 28px 36px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.16);
+    }
+
+    header h1 {
+        margin: 0 0 8px 0;
+        font-size: 30px;
+    }
+
+    header p {
+        margin: 0;
+        color: rgba(255,255,255,0.86);
+    }
+
+    nav {
+        margin-top: 16px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    nav a {
+        color: white;
+        text-decoration: none;
+        border: 1px solid rgba(255,255,255,0.4);
+        border-radius: 999px;
+        padding: 7px 12px;
+        font-size: 13px;
+    }
+
+    main {
+        padding: 28px 36px 56px 36px;
+    }
+
+    .bracket-section {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 22px;
+        margin-bottom: 36px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    }
+
+    .bracket-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+        gap: 18px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 16px;
+        margin-bottom: 18px;
+    }
+
+    .bracket-header h2 {
+        margin: 0 0 8px 0;
+        font-size: 24px;
+        color: var(--green);
+    }
+
+    .bracket-header p {
+        margin: 0;
+        color: var(--gray);
+    }
+
+    .summary-cards {
+        display: flex;
+        gap: 12px;
+        min-width: 330px;
+    }
+
+    .summary-card {
+        flex: 1;
+        border: 1px solid var(--border);
+        background: var(--light-green);
+        border-radius: 14px;
+        padding: 12px;
+    }
+
+    .summary-card span {
+        display: block;
+        font-size: 12px;
+        color: var(--gray);
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .summary-card b {
+        display: block;
+        font-size: 18px;
+        color: var(--green);
+    }
+
+    .late-rounds {
+        margin-bottom: 24px;
+    }
+
+    .late-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(180px, 1fr));
+        gap: 14px;
+    }
+
+    .mini-heading {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--gray);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 6px;
+    }
+
+    .quarter-section {
+        margin-top: 26px;
+    }
+
+    .quarter-section h3, .late-rounds h3 {
+        color: var(--green);
+        font-size: 18px;
+        margin: 0 0 10px 0;
+    }
+
+    .bracket-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 8px;
+        table-layout: fixed;
+    }
+
+    .bracket-table th {
+        text-align: left;
+        font-size: 12px;
+        color: var(--gray);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        padding: 0 6px 4px 6px;
+    }
+
+    .bracket-table td {
+        vertical-align: middle;
+    }
+
+    .match-card, .winner-card {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: white;
+        padding: 9px 10px;
+        min-height: 46px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.035);
+    }
+
+    .winner-card {
+        background: #FAFCFA;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: calc(100% - 20px);
+    }
+
+    .picked {
+        font-weight: 800;
+        color: var(--green);
+        font-size: 14px;
+        line-height: 1.25;
+    }
+
+    .not-picked {
+        color: #7A8699;
+        font-size: 13px;
+        line-height: 1.25;
+    }
+
+    .pick-meta {
+        margin-top: 6px;
+        color: var(--gray);
+        font-size: 11px;
+    }
+
+    .round-label {
+        color: var(--gold);
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 4px;
+    }
+
+    .winner-name {
+        color: var(--green);
+        font-size: 15px;
+        font-weight: 800;
+    }
+
+    .missing {
+        color: #B42318;
+        background: #FFF4F2;
+    }
+
+    @media print {
+        header {
+            position: static;
+        }
+
+        .bracket-section {
+            page-break-after: always;
+            box-shadow: none;
+        }
+
+        body {
+            background: white;
+        }
+    }
+</style>
+</head>
+<body>
+<header>
+    <h1>Wimbledon 2026 Optimized Brackets</h1>
+    <p>Top-3 champion-constrained expected-score brackets. Bold green names are the picks to fill in.</p>
+    <nav>
+        <a href="#Wimbledon_2026_top_1_champion">Wimbledon_2026_top_1_champion</a>
+<a href="#Wimbledon_2026_top_2_champion">Wimbledon_2026_top_2_champion</a>
+<a href="#Wimbledon_2026_top_3_champion">Wimbledon_2026_top_3_champion</a>
+    </nav>
+</header>
+<main>
+    
+    <article class="bracket-section" id="Wimbledon_2026_top_1_champion">
+        <div class="bracket-header">
+            <div>
+                <h2>Wimbledon_2026_top_1_champion</h2>
+                <p>Champion constraint rank #1: <b>Jannik Sinner</b> (38.1%)</p>
+            </div>
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <span>Champion</span>
+                    <b>Jannik Sinner</b>
+                </div>
+                <div class="summary-card">
+                    <span>Expected score</span>
+                    <b>2086.8</b>
+                </div>
+            </div>
+        </div>
+
+        
+    <section class="late-rounds">
+        <h3>Final Four Path</h3>
+        <div class="late-grid">
+            <div>
+                <div class="mini-heading">Semifinal 1</div>
+                
+    <div class="match-card">
+        <div class="picked">Jannik Sinner</div>
+        <div class="not-picked">Novak Djokovic</div>
+        <div class="pick-meta">Pick: <b>Jannik Sinner</b> · 47.8%</div>
+    </div>
+    
+            </div>
+            <div>
+                <div class="mini-heading">Semifinal 2</div>
+                
+    <div class="match-card">
+        <div class="not-picked">Alex de Minaur</div>
+        <div class="picked">Alexander Zverev</div>
+        <div class="pick-meta">Pick: <b>Alexander Zverev</b> · 26.9%</div>
+    </div>
+    
+            </div>
+            <div>
+                <div class="mini-heading">Final</div>
+                
+    <div class="match-card">
+        <div class="picked">Jannik Sinner</div>
+        <div class="not-picked">Alexander Zverev</div>
+        <div class="pick-meta">Pick: <b>Jannik Sinner</b> · 38.1%</div>
+    </div>
+    
+            </div>
+            <div>
+                <div class="mini-heading">Champion</div>
+                
+    <div class="winner-card">
+        
+        <div class="winner-name">Jannik Sinner</div>
+        <div class="pick-meta">38.1%</div>
+    </div>
+    
+            </div>
+        </div>
+    </section>
+    
+
+        
+    <section class="quarter-section">
+        <h3>Quarter 1</h3>
+        <table class="bracket-table">
+            <thead>
+                <tr>
+                    <th>Round 1</th>
+                    <th>Round 2</th>
+                    <th>Round 3</th>
+                    <th>Round 4</th>
+                    <th>Quarterfinalist</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>
+    <div class="match-card">
+        <div class="picked">Jannik Sinner</div>
+        <div class="not-picked">Miomir Kecmanovic</div>
+        <div class="pick-meta">Pick: <b>Jannik Sinner</b> · 93.3%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Jannik Sinner</div>
+        <div class="pick-meta">87.2%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Jannik Sinner</div>
+        <div class="pick-meta">82.0%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Jannik Sinner</div>
+        <div class="pick-meta">75.3%</div>
+    </div>
+    </td><td rowspan="16">
+    <div class="winner-card">
+        <div class="round-label">QF</div>
+        <div class="winner-name">Jannik Sinner</div>
+        <div class="pick-meta">63.0%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Nuno Borges</div>
+        <div class="not-picked">Tristan Boyer</div>
+        <div class="pick-meta">Pick: <b>Nuno Borges</b> · 67.5%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Aleksandar Vukic</div>
+        <div class="picked">Jenson Brooksby</div>
+        <div class="pick-meta">Pick: <b>Jenson Brooksby</b> · 57.7%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Ignacio Buse</div>
+        <div class="pick-meta">36.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Emilio Nava</div>
+        <div class="picked">Ignacio Buse</div>
+        <div class="pick-meta">Pick: <b>Ignacio Buse</b> · 66.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Rafael Jodar</div>
+        <div class="not-picked">Felix Gill</div>
+        <div class="pick-meta">Pick: <b>Rafael Jodar</b> · 70.6%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Rafael Jodar</div>
+        <div class="pick-meta">38.3%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Luciano Darderi</div>
+        <div class="pick-meta">31.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Denis Shapovalov</div>
+        <div class="not-picked">Pablo Carreno Busta</div>
+        <div class="pick-meta">Pick: <b>Denis Shapovalov</b> · 53.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Shintaro Mochizuki</div>
+        <div class="not-picked">Max Basing</div>
+        <div class="pick-meta">Pick: <b>Shintaro Mochizuki</b> · 53.7%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Luciano Darderi</div>
+        <div class="pick-meta">51.0%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Ethan Quinn</div>
+        <div class="picked">Luciano Darderi</div>
+        <div class="pick-meta">Pick: <b>Luciano Darderi</b> · 65.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Casper Ruud</div>
+        <div class="not-picked">Hubert Hurkacz</div>
+        <div class="pick-meta">Pick: <b>Casper Ruud</b> · 58.3%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Casper Ruud</div>
+        <div class="pick-meta">40.2%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Tommy Paul</div>
+        <div class="pick-meta">45.8%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Tommy Paul</div>
+        <div class="pick-meta">26.3%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Hamad Medjedovic</div>
+        <div class="not-picked">Sebastian Ofner</div>
+        <div class="pick-meta">Pick: <b>Hamad Medjedovic</b> · 60.1%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Soonwoo Kwon</div>
+        <div class="picked">Martin Landaluce</div>
+        <div class="pick-meta">Pick: <b>Martin Landaluce</b> · 53.4%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Tommy Paul</div>
+        <div class="pick-meta">69.9%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Alexandre Muller</div>
+        <div class="picked">Tommy Paul</div>
+        <div class="pick-meta">Pick: <b>Tommy Paul</b> · 84.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Brandon Nakashima</div>
+        <div class="not-picked">Jack Pinnington Jones</div>
+        <div class="pick-meta">Pick: <b>Brandon Nakashima</b> · 80.2%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Brandon Nakashima</div>
+        <div class="pick-meta">54.8%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Daniil Medvedev</div>
+        <div class="pick-meta">41.3%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Jan-Lennard Struff</div>
+        <div class="not-picked">Sebastian Baez</div>
+        <div class="pick-meta">Pick: <b>Jan-Lennard Struff</b> · 58.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Camilo Ugo Carabelli</div>
+        <div class="picked">Daniel Merida</div>
+        <div class="pick-meta">Pick: <b>Daniel Merida</b> · 53.5%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Daniil Medvedev</div>
+        <div class="pick-meta">58.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Marin Cilic</div>
+        <div class="picked">Daniil Medvedev</div>
+        <div class="pick-meta">Pick: <b>Daniil Medvedev</b> · 68.9%</div>
+    </div>
+    </td></tr>
+            </tbody>
+        </table>
+    </section>
+    
+
+    <section class="quarter-section">
+        <h3>Quarter 2</h3>
+        <table class="bracket-table">
+            <thead>
+                <tr>
+                    <th>Round 1</th>
+                    <th>Round 2</th>
+                    <th>Round 3</th>
+                    <th>Round 4</th>
+                    <th>Quarterfinalist</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>
+    <div class="match-card">
+        <div class="picked">Felix Auger-Aliassime</div>
+        <div class="not-picked">Alexander Shevchenko</div>
+        <div class="pick-meta">Pick: <b>Felix Auger-Aliassime</b> · 84.2%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Felix Auger-Aliassime</div>
+        <div class="pick-meta">67.8%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Felix Auger-Aliassime</div>
+        <div class="pick-meta">50.3%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Felix Auger-Aliassime</div>
+        <div class="pick-meta">37.0%</div>
+    </div>
+    </td><td rowspan="16">
+    <div class="winner-card">
+        <div class="round-label">QF</div>
+        <div class="winner-name">Novak Djokovic</div>
+        <div class="pick-meta">47.1%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Adam Walton</div>
+        <div class="picked">Dino Prizmic</div>
+        <div class="pick-meta">Pick: <b>Dino Prizmic</b> · 52.1%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Adolfo Daniel Vallejo</div>
+        <div class="not-picked">Nicolas Mejia</div>
+        <div class="pick-meta">Pick: <b>Adolfo Daniel Vallejo</b> · 62.4%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Cameron Norrie</div>
+        <div class="pick-meta">57.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Michael Zheng</div>
+        <div class="picked">Cameron Norrie</div>
+        <div class="pick-meta">Pick: <b>Cameron Norrie</b> · 79.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Alejandro Davidovich Fokina</div>
+        <div class="picked">Juan Manuel Cerundolo</div>
+        <div class="pick-meta">Pick: <b>Juan Manuel Cerundolo</b> · 51.9%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Fabian Marozsan</div>
+        <div class="pick-meta">31.5%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Learner Tien</div>
+        <div class="pick-meta">38.3%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Thiago Agustin Tirante</div>
+        <div class="picked">Fabian Marozsan</div>
+        <div class="pick-meta">Pick: <b>Fabian Marozsan</b> · 52.3%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Luca Van Assche</div>
+        <div class="picked">Marton Fucsovics</div>
+        <div class="pick-meta">Pick: <b>Marton Fucsovics</b> · 61.6%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Learner Tien</div>
+        <div class="pick-meta">53.4%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Dalibor Svrcina</div>
+        <div class="picked">Learner Tien</div>
+        <div class="pick-meta">Pick: <b>Learner Tien</b> · 76.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Andrey Rublev</div>
+        <div class="not-picked">Roman Safiullin</div>
+        <div class="pick-meta">Pick: <b>Andrey Rublev</b> · 73.0%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Andrey Rublev</div>
+        <div class="pick-meta">51.7%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Andrey Rublev</div>
+        <div class="pick-meta">35.0%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Novak Djokovic</div>
+        <div class="pick-meta">58.4%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Aleksandar Kovacevic</div>
+        <div class="picked">Botic Van De Zandschulp</div>
+        <div class="pick-meta">Pick: <b>Botic Van De Zandschulp</b> · 61.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Jesper de Jong</div>
+        <div class="picked">Rinky Hijikata</div>
+        <div class="pick-meta">Pick: <b>Rinky Hijikata</b> · 54.9%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Joao Fonseca</div>
+        <div class="pick-meta">41.4%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Roberto Bautista Agut</div>
+        <div class="picked">Joao Fonseca</div>
+        <div class="pick-meta">Pick: <b>Joao Fonseca</b> · 61.1%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Arthur Rinderknech</div>
+        <div class="not-picked">Oliver Tarvet</div>
+        <div class="pick-meta">Pick: <b>Arthur Rinderknech</b> · 88.4%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Arthur Rinderknech</div>
+        <div class="pick-meta">64.6%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Novak Djokovic</div>
+        <div class="pick-meta">69.9%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Marco Trungelliti</div>
+        <div class="not-picked">Martin Damm Jr</div>
+        <div class="pick-meta">Pick: <b>Marco Trungelliti</b> · 56.4%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Hugo Gaston</div>
+        <div class="picked">Stefanos Tsitsipas</div>
+        <div class="pick-meta">Pick: <b>Stefanos Tsitsipas</b> · 70.3%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Novak Djokovic</div>
+        <div class="pick-meta">79.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Yibing Wu</div>
+        <div class="picked">Novak Djokovic</div>
+        <div class="pick-meta">Pick: <b>Novak Djokovic</b> · 91.3%</div>
+    </div>
+    </td></tr>
+            </tbody>
+        </table>
+    </section>
+    
+
+    <section class="quarter-section">
+        <h3>Quarter 3</h3>
+        <table class="bracket-table">
+            <thead>
+                <tr>
+                    <th>Round 1</th>
+                    <th>Round 2</th>
+                    <th>Round 3</th>
+                    <th>Round 4</th>
+                    <th>Quarterfinalist</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>
+    <div class="match-card">
+        <div class="picked">Alex de Minaur</div>
+        <div class="not-picked">Roman Andres Burruchaga</div>
+        <div class="pick-meta">Pick: <b>Alex de Minaur</b> · 85.3%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Alex de Minaur</div>
+        <div class="pick-meta">69.7%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Alex de Minaur</div>
+        <div class="pick-meta">52.5%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Alex de Minaur</div>
+        <div class="pick-meta">37.8%</div>
+    </div>
+    </td><td rowspan="16">
+    <div class="winner-card">
+        <div class="round-label">QF</div>
+        <div class="winner-name">Alex de Minaur</div>
+        <div class="pick-meta">25.4%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Adrian Mannarino</div>
+        <div class="not-picked">Titouan Droguet</div>
+        <div class="pick-meta">Pick: <b>Adrian Mannarino</b> · 64.0%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Mattia Bellucci</div>
+        <div class="not-picked">Zachary Svajda</div>
+        <div class="pick-meta">Pick: <b>Mattia Bellucci</b> · 65.5%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Kamil Majchrzak</div>
+        <div class="pick-meta">35.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Kamil Majchrzak</div>
+        <div class="not-picked">Alejandro Tabilo</div>
+        <div class="pick-meta">Pick: <b>Kamil Majchrzak</b> · 53.8%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Karen Khachanov</div>
+        <div class="not-picked">Billy Harris</div>
+        <div class="pick-meta">Pick: <b>Karen Khachanov</b> · 73.9%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Karen Khachanov</div>
+        <div class="pick-meta">49.7%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Karen Khachanov</div>
+        <div class="pick-meta">30.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Yannick Hanfmann</div>
+        <div class="not-picked">Giovanni Mpetshi Perricard</div>
+        <div class="pick-meta">Pick: <b>Yannick Hanfmann</b> · 54.5%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Tallon Griekspoor</div>
+        <div class="not-picked">James Duckworth</div>
+        <div class="pick-meta">Pick: <b>Tallon Griekspoor</b> · 59.1%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Flavio Cobolli</div>
+        <div class="pick-meta">41.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Mariano Navone</div>
+        <div class="picked">Flavio Cobolli</div>
+        <div class="pick-meta">Pick: <b>Flavio Cobolli</b> · 63.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Jakub Mensik</div>
+        <div class="not-picked">Toby Samuel</div>
+        <div class="pick-meta">Pick: <b>Jakub Mensik</b> · 85.3%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Jakub Mensik</div>
+        <div class="pick-meta">53.0%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Arthur Fils</div>
+        <div class="pick-meta">27.3%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Ben Shelton</div>
+        <div class="pick-meta">26.9%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Dane Sweeny</div>
+        <div class="picked">Grigor Dimitrov</div>
+        <div class="pick-meta">Pick: <b>Grigor Dimitrov</b> · 75.0%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Stan Wawrinka</div>
+        <div class="picked">Matteo Berrettini</div>
+        <div class="pick-meta">Pick: <b>Matteo Berrettini</b> · 67.8%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Arthur Fils</div>
+        <div class="pick-meta">43.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Raphael Collignon</div>
+        <div class="picked">Arthur Fils</div>
+        <div class="pick-meta">Pick: <b>Arthur Fils</b> · 71.0%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Ugo Humbert</div>
+        <div class="not-picked">Zizou Bergs</div>
+        <div class="pick-meta">Pick: <b>Ugo Humbert</b> · 65.5%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Ugo Humbert</div>
+        <div class="pick-meta">50.0%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Ben Shelton</div>
+        <div class="pick-meta">43.5%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Sho Shimabukuro</div>
+        <div class="not-picked">Jaime Faria</div>
+        <div class="pick-meta">Pick: <b>Sho Shimabukuro</b> · 58.1%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Damir Dzumhur</div>
+        <div class="picked">Arthur Fery</div>
+        <div class="pick-meta">Pick: <b>Arthur Fery</b> · 52.1%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Ben Shelton</div>
+        <div class="pick-meta">63.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Otto Virtanen</div>
+        <div class="picked">Ben Shelton</div>
+        <div class="pick-meta">Pick: <b>Ben Shelton</b> · 82.4%</div>
+    </div>
+    </td></tr>
+            </tbody>
+        </table>
+    </section>
+    
+
+    <section class="quarter-section">
+        <h3>Quarter 4</h3>
+        <table class="bracket-table">
+            <thead>
+                <tr>
+                    <th>Round 1</th>
+                    <th>Round 2</th>
+                    <th>Round 3</th>
+                    <th>Round 4</th>
+                    <th>Quarterfinalist</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>
+    <div class="match-card">
+        <div class="picked">Taylor Fritz</div>
+        <div class="not-picked">Jack Draper</div>
+        <div class="pick-meta">Pick: <b>Taylor Fritz</b> · 57.5%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Taylor Fritz</div>
+        <div class="pick-meta">48.4%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Taylor Fritz</div>
+        <div class="pick-meta">37.3%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Taylor Fritz</div>
+        <div class="pick-meta">24.9%</div>
+    </div>
+    </td><td rowspan="16">
+    <div class="winner-card">
+        <div class="round-label">QF</div>
+        <div class="winner-name">Alexander Zverev</div>
+        <div class="pick-meta">37.8%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Patrick Kypson</div>
+        <div class="picked">Mackenzie McDonald</div>
+        <div class="pick-meta">Pick: <b>Mackenzie McDonald</b> · 63.9%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Benjamin Bonzi</div>
+        <div class="picked">Gabriel Diallo</div>
+        <div class="pick-meta">Pick: <b>Gabriel Diallo</b> · 51.2%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Tomas Martin Etcheverry</div>
+        <div class="pick-meta">28.8%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Lorenzo Sonego</div>
+        <div class="picked">Tomas Martin Etcheverry</div>
+        <div class="pick-meta">Pick: <b>Tomas Martin Etcheverry</b> · 52.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Frances Tiafoe</div>
+        <div class="not-picked">Terence Atmane</div>
+        <div class="pick-meta">Pick: <b>Frances Tiafoe</b> · 75.2%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Frances Tiafoe</div>
+        <div class="pick-meta">58.4%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Alexander Bublik</div>
+        <div class="pick-meta">43.9%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Vit Kopriva</div>
+        <div class="not-picked">Jan Choinski</div>
+        <div class="pick-meta">Pick: <b>Vit Kopriva</b> · 58.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Kyrian Jacquet</div>
+        <div class="picked">Vilius Gaubas</div>
+        <div class="pick-meta">Pick: <b>Vilius Gaubas</b> · 53.1%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Alexander Bublik</div>
+        <div class="pick-meta">71.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Thanasi Kokkinakis</div>
+        <div class="picked">Alexander Bublik</div>
+        <div class="pick-meta">Pick: <b>Alexander Bublik</b> · 87.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Jiri Lehecka</div>
+        <div class="not-picked">Alexei Popyrin</div>
+        <div class="pick-meta">Pick: <b>Jiri Lehecka</b> · 71.4%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Jiri Lehecka</div>
+        <div class="pick-meta">51.7%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Jiri Lehecka</div>
+        <div class="pick-meta">30.5%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Alexander Zverev</div>
+        <div class="pick-meta">52.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Alex Molcan</div>
+        <div class="not-picked">Daniel Altmaier</div>
+        <div class="pick-meta">Pick: <b>Alex Molcan</b> · 54.4%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Alex Michelsen</div>
+        <div class="not-picked">Jacob Fearnley</div>
+        <div class="pick-meta">Pick: <b>Alex Michelsen</b> · 65.8%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Francisco Cerundolo</div>
+        <div class="pick-meta">46.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Jaume Munar</div>
+        <div class="picked">Francisco Cerundolo</div>
+        <div class="pick-meta">Pick: <b>Francisco Cerundolo</b> · 69.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Matteo Arnaldi</div>
+        <div class="picked">Quentin Halys</div>
+        <div class="pick-meta">Pick: <b>Quentin Halys</b> · 54.4%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Corentin Moutet</div>
+        <div class="pick-meta">31.4%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Alexander Zverev</div>
+        <div class="pick-meta">67.8%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Corentin Moutet</div>
+        <div class="not-picked">Marcos Giron</div>
+        <div class="pick-meta">Pick: <b>Corentin Moutet</b> · 53.1%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Valentin Royer</div>
+        <div class="not-picked">Harry Wendelken</div>
+        <div class="pick-meta">Pick: <b>Valentin Royer</b> · 70.0%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Alexander Zverev</div>
+        <div class="pick-meta">79.5%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Alexander Blockx</div>
+        <div class="picked">Alexander Zverev</div>
+        <div class="pick-meta">Pick: <b>Alexander Zverev</b> · 87.1%</div>
+    </div>
+    </td></tr>
+            </tbody>
+        </table>
+    </section>
+    
+    </article>
+    
+
+    <article class="bracket-section" id="Wimbledon_2026_top_2_champion">
+        <div class="bracket-header">
+            <div>
+                <h2>Wimbledon_2026_top_2_champion</h2>
+                <p>Champion constraint rank #2: <b>Novak Djokovic</b> (16.8%)</p>
+            </div>
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <span>Champion</span>
+                    <b>Novak Djokovic</b>
+                </div>
+                <div class="summary-card">
+                    <span>Expected score</span>
+                    <b>1874.2</b>
+                </div>
+            </div>
+        </div>
+
+        
+    <section class="late-rounds">
+        <h3>Final Four Path</h3>
+        <div class="late-grid">
+            <div>
+                <div class="mini-heading">Semifinal 1</div>
+                
+    <div class="match-card">
+        <div class="not-picked">Jannik Sinner</div>
+        <div class="picked">Novak Djokovic</div>
+        <div class="pick-meta">Pick: <b>Novak Djokovic</b> · 24.1%</div>
+    </div>
+    
+            </div>
+            <div>
+                <div class="mini-heading">Semifinal 2</div>
+                
+    <div class="match-card">
+        <div class="not-picked">Alex de Minaur</div>
+        <div class="picked">Alexander Zverev</div>
+        <div class="pick-meta">Pick: <b>Alexander Zverev</b> · 26.9%</div>
+    </div>
+    
+            </div>
+            <div>
+                <div class="mini-heading">Final</div>
+                
+    <div class="match-card">
+        <div class="picked">Novak Djokovic</div>
+        <div class="not-picked">Alexander Zverev</div>
+        <div class="pick-meta">Pick: <b>Novak Djokovic</b> · 16.8%</div>
+    </div>
+    
+            </div>
+            <div>
+                <div class="mini-heading">Champion</div>
+                
+    <div class="winner-card">
+        
+        <div class="winner-name">Novak Djokovic</div>
+        <div class="pick-meta">16.8%</div>
+    </div>
+    
+            </div>
+        </div>
+    </section>
+    
+
+        
+    <section class="quarter-section">
+        <h3>Quarter 1</h3>
+        <table class="bracket-table">
+            <thead>
+                <tr>
+                    <th>Round 1</th>
+                    <th>Round 2</th>
+                    <th>Round 3</th>
+                    <th>Round 4</th>
+                    <th>Quarterfinalist</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>
+    <div class="match-card">
+        <div class="picked">Jannik Sinner</div>
+        <div class="not-picked">Miomir Kecmanovic</div>
+        <div class="pick-meta">Pick: <b>Jannik Sinner</b> · 93.3%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Jannik Sinner</div>
+        <div class="pick-meta">87.2%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Jannik Sinner</div>
+        <div class="pick-meta">82.0%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Jannik Sinner</div>
+        <div class="pick-meta">75.3%</div>
+    </div>
+    </td><td rowspan="16">
+    <div class="winner-card">
+        <div class="round-label">QF</div>
+        <div class="winner-name">Jannik Sinner</div>
+        <div class="pick-meta">63.0%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Nuno Borges</div>
+        <div class="not-picked">Tristan Boyer</div>
+        <div class="pick-meta">Pick: <b>Nuno Borges</b> · 67.5%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Aleksandar Vukic</div>
+        <div class="picked">Jenson Brooksby</div>
+        <div class="pick-meta">Pick: <b>Jenson Brooksby</b> · 57.7%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Ignacio Buse</div>
+        <div class="pick-meta">36.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Emilio Nava</div>
+        <div class="picked">Ignacio Buse</div>
+        <div class="pick-meta">Pick: <b>Ignacio Buse</b> · 66.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Rafael Jodar</div>
+        <div class="not-picked">Felix Gill</div>
+        <div class="pick-meta">Pick: <b>Rafael Jodar</b> · 70.6%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Rafael Jodar</div>
+        <div class="pick-meta">38.3%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Luciano Darderi</div>
+        <div class="pick-meta">31.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Denis Shapovalov</div>
+        <div class="not-picked">Pablo Carreno Busta</div>
+        <div class="pick-meta">Pick: <b>Denis Shapovalov</b> · 53.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Shintaro Mochizuki</div>
+        <div class="not-picked">Max Basing</div>
+        <div class="pick-meta">Pick: <b>Shintaro Mochizuki</b> · 53.7%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Luciano Darderi</div>
+        <div class="pick-meta">51.0%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Ethan Quinn</div>
+        <div class="picked">Luciano Darderi</div>
+        <div class="pick-meta">Pick: <b>Luciano Darderi</b> · 65.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Casper Ruud</div>
+        <div class="not-picked">Hubert Hurkacz</div>
+        <div class="pick-meta">Pick: <b>Casper Ruud</b> · 58.3%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Casper Ruud</div>
+        <div class="pick-meta">40.2%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Tommy Paul</div>
+        <div class="pick-meta">45.8%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Tommy Paul</div>
+        <div class="pick-meta">26.3%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Hamad Medjedovic</div>
+        <div class="not-picked">Sebastian Ofner</div>
+        <div class="pick-meta">Pick: <b>Hamad Medjedovic</b> · 60.1%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Soonwoo Kwon</div>
+        <div class="picked">Martin Landaluce</div>
+        <div class="pick-meta">Pick: <b>Martin Landaluce</b> · 53.4%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Tommy Paul</div>
+        <div class="pick-meta">69.9%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Alexandre Muller</div>
+        <div class="picked">Tommy Paul</div>
+        <div class="pick-meta">Pick: <b>Tommy Paul</b> · 84.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Brandon Nakashima</div>
+        <div class="not-picked">Jack Pinnington Jones</div>
+        <div class="pick-meta">Pick: <b>Brandon Nakashima</b> · 80.2%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Brandon Nakashima</div>
+        <div class="pick-meta">54.8%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Daniil Medvedev</div>
+        <div class="pick-meta">41.3%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Jan-Lennard Struff</div>
+        <div class="not-picked">Sebastian Baez</div>
+        <div class="pick-meta">Pick: <b>Jan-Lennard Struff</b> · 58.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Camilo Ugo Carabelli</div>
+        <div class="picked">Daniel Merida</div>
+        <div class="pick-meta">Pick: <b>Daniel Merida</b> · 53.5%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Daniil Medvedev</div>
+        <div class="pick-meta">58.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Marin Cilic</div>
+        <div class="picked">Daniil Medvedev</div>
+        <div class="pick-meta">Pick: <b>Daniil Medvedev</b> · 68.9%</div>
+    </div>
+    </td></tr>
+            </tbody>
+        </table>
+    </section>
+    
+
+    <section class="quarter-section">
+        <h3>Quarter 2</h3>
+        <table class="bracket-table">
+            <thead>
+                <tr>
+                    <th>Round 1</th>
+                    <th>Round 2</th>
+                    <th>Round 3</th>
+                    <th>Round 4</th>
+                    <th>Quarterfinalist</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>
+    <div class="match-card">
+        <div class="picked">Felix Auger-Aliassime</div>
+        <div class="not-picked">Alexander Shevchenko</div>
+        <div class="pick-meta">Pick: <b>Felix Auger-Aliassime</b> · 84.2%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Felix Auger-Aliassime</div>
+        <div class="pick-meta">67.8%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Felix Auger-Aliassime</div>
+        <div class="pick-meta">50.3%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Felix Auger-Aliassime</div>
+        <div class="pick-meta">37.0%</div>
+    </div>
+    </td><td rowspan="16">
+    <div class="winner-card">
+        <div class="round-label">QF</div>
+        <div class="winner-name">Novak Djokovic</div>
+        <div class="pick-meta">47.1%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Adam Walton</div>
+        <div class="picked">Dino Prizmic</div>
+        <div class="pick-meta">Pick: <b>Dino Prizmic</b> · 52.1%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Adolfo Daniel Vallejo</div>
+        <div class="not-picked">Nicolas Mejia</div>
+        <div class="pick-meta">Pick: <b>Adolfo Daniel Vallejo</b> · 62.4%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Cameron Norrie</div>
+        <div class="pick-meta">57.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Michael Zheng</div>
+        <div class="picked">Cameron Norrie</div>
+        <div class="pick-meta">Pick: <b>Cameron Norrie</b> · 79.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Alejandro Davidovich Fokina</div>
+        <div class="picked">Juan Manuel Cerundolo</div>
+        <div class="pick-meta">Pick: <b>Juan Manuel Cerundolo</b> · 51.9%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Fabian Marozsan</div>
+        <div class="pick-meta">31.5%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Learner Tien</div>
+        <div class="pick-meta">38.3%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Thiago Agustin Tirante</div>
+        <div class="picked">Fabian Marozsan</div>
+        <div class="pick-meta">Pick: <b>Fabian Marozsan</b> · 52.3%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Luca Van Assche</div>
+        <div class="picked">Marton Fucsovics</div>
+        <div class="pick-meta">Pick: <b>Marton Fucsovics</b> · 61.6%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Learner Tien</div>
+        <div class="pick-meta">53.4%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Dalibor Svrcina</div>
+        <div class="picked">Learner Tien</div>
+        <div class="pick-meta">Pick: <b>Learner Tien</b> · 76.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Andrey Rublev</div>
+        <div class="not-picked">Roman Safiullin</div>
+        <div class="pick-meta">Pick: <b>Andrey Rublev</b> · 73.0%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Andrey Rublev</div>
+        <div class="pick-meta">51.7%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Andrey Rublev</div>
+        <div class="pick-meta">35.0%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Novak Djokovic</div>
+        <div class="pick-meta">58.4%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Aleksandar Kovacevic</div>
+        <div class="picked">Botic Van De Zandschulp</div>
+        <div class="pick-meta">Pick: <b>Botic Van De Zandschulp</b> · 61.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Jesper de Jong</div>
+        <div class="picked">Rinky Hijikata</div>
+        <div class="pick-meta">Pick: <b>Rinky Hijikata</b> · 54.9%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Joao Fonseca</div>
+        <div class="pick-meta">41.4%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Roberto Bautista Agut</div>
+        <div class="picked">Joao Fonseca</div>
+        <div class="pick-meta">Pick: <b>Joao Fonseca</b> · 61.1%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Arthur Rinderknech</div>
+        <div class="not-picked">Oliver Tarvet</div>
+        <div class="pick-meta">Pick: <b>Arthur Rinderknech</b> · 88.4%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Arthur Rinderknech</div>
+        <div class="pick-meta">64.6%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Novak Djokovic</div>
+        <div class="pick-meta">69.9%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Marco Trungelliti</div>
+        <div class="not-picked">Martin Damm Jr</div>
+        <div class="pick-meta">Pick: <b>Marco Trungelliti</b> · 56.4%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Hugo Gaston</div>
+        <div class="picked">Stefanos Tsitsipas</div>
+        <div class="pick-meta">Pick: <b>Stefanos Tsitsipas</b> · 70.3%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Novak Djokovic</div>
+        <div class="pick-meta">79.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Yibing Wu</div>
+        <div class="picked">Novak Djokovic</div>
+        <div class="pick-meta">Pick: <b>Novak Djokovic</b> · 91.3%</div>
+    </div>
+    </td></tr>
+            </tbody>
+        </table>
+    </section>
+    
+
+    <section class="quarter-section">
+        <h3>Quarter 3</h3>
+        <table class="bracket-table">
+            <thead>
+                <tr>
+                    <th>Round 1</th>
+                    <th>Round 2</th>
+                    <th>Round 3</th>
+                    <th>Round 4</th>
+                    <th>Quarterfinalist</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>
+    <div class="match-card">
+        <div class="picked">Alex de Minaur</div>
+        <div class="not-picked">Roman Andres Burruchaga</div>
+        <div class="pick-meta">Pick: <b>Alex de Minaur</b> · 85.3%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Alex de Minaur</div>
+        <div class="pick-meta">69.7%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Alex de Minaur</div>
+        <div class="pick-meta">52.5%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Alex de Minaur</div>
+        <div class="pick-meta">37.8%</div>
+    </div>
+    </td><td rowspan="16">
+    <div class="winner-card">
+        <div class="round-label">QF</div>
+        <div class="winner-name">Alex de Minaur</div>
+        <div class="pick-meta">25.4%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Adrian Mannarino</div>
+        <div class="not-picked">Titouan Droguet</div>
+        <div class="pick-meta">Pick: <b>Adrian Mannarino</b> · 64.0%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Mattia Bellucci</div>
+        <div class="not-picked">Zachary Svajda</div>
+        <div class="pick-meta">Pick: <b>Mattia Bellucci</b> · 65.5%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Kamil Majchrzak</div>
+        <div class="pick-meta">35.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Kamil Majchrzak</div>
+        <div class="not-picked">Alejandro Tabilo</div>
+        <div class="pick-meta">Pick: <b>Kamil Majchrzak</b> · 53.8%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Karen Khachanov</div>
+        <div class="not-picked">Billy Harris</div>
+        <div class="pick-meta">Pick: <b>Karen Khachanov</b> · 73.9%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Karen Khachanov</div>
+        <div class="pick-meta">49.7%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Karen Khachanov</div>
+        <div class="pick-meta">30.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Yannick Hanfmann</div>
+        <div class="not-picked">Giovanni Mpetshi Perricard</div>
+        <div class="pick-meta">Pick: <b>Yannick Hanfmann</b> · 54.5%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Tallon Griekspoor</div>
+        <div class="not-picked">James Duckworth</div>
+        <div class="pick-meta">Pick: <b>Tallon Griekspoor</b> · 59.1%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Flavio Cobolli</div>
+        <div class="pick-meta">41.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Mariano Navone</div>
+        <div class="picked">Flavio Cobolli</div>
+        <div class="pick-meta">Pick: <b>Flavio Cobolli</b> · 63.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Jakub Mensik</div>
+        <div class="not-picked">Toby Samuel</div>
+        <div class="pick-meta">Pick: <b>Jakub Mensik</b> · 85.3%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Jakub Mensik</div>
+        <div class="pick-meta">53.0%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Arthur Fils</div>
+        <div class="pick-meta">27.3%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Ben Shelton</div>
+        <div class="pick-meta">26.9%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Dane Sweeny</div>
+        <div class="picked">Grigor Dimitrov</div>
+        <div class="pick-meta">Pick: <b>Grigor Dimitrov</b> · 75.0%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Stan Wawrinka</div>
+        <div class="picked">Matteo Berrettini</div>
+        <div class="pick-meta">Pick: <b>Matteo Berrettini</b> · 67.8%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Arthur Fils</div>
+        <div class="pick-meta">43.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Raphael Collignon</div>
+        <div class="picked">Arthur Fils</div>
+        <div class="pick-meta">Pick: <b>Arthur Fils</b> · 71.0%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Ugo Humbert</div>
+        <div class="not-picked">Zizou Bergs</div>
+        <div class="pick-meta">Pick: <b>Ugo Humbert</b> · 65.5%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Ugo Humbert</div>
+        <div class="pick-meta">50.0%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Ben Shelton</div>
+        <div class="pick-meta">43.5%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Sho Shimabukuro</div>
+        <div class="not-picked">Jaime Faria</div>
+        <div class="pick-meta">Pick: <b>Sho Shimabukuro</b> · 58.1%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Damir Dzumhur</div>
+        <div class="picked">Arthur Fery</div>
+        <div class="pick-meta">Pick: <b>Arthur Fery</b> · 52.1%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Ben Shelton</div>
+        <div class="pick-meta">63.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Otto Virtanen</div>
+        <div class="picked">Ben Shelton</div>
+        <div class="pick-meta">Pick: <b>Ben Shelton</b> · 82.4%</div>
+    </div>
+    </td></tr>
+            </tbody>
+        </table>
+    </section>
+    
+
+    <section class="quarter-section">
+        <h3>Quarter 4</h3>
+        <table class="bracket-table">
+            <thead>
+                <tr>
+                    <th>Round 1</th>
+                    <th>Round 2</th>
+                    <th>Round 3</th>
+                    <th>Round 4</th>
+                    <th>Quarterfinalist</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>
+    <div class="match-card">
+        <div class="picked">Taylor Fritz</div>
+        <div class="not-picked">Jack Draper</div>
+        <div class="pick-meta">Pick: <b>Taylor Fritz</b> · 57.5%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Taylor Fritz</div>
+        <div class="pick-meta">48.4%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Taylor Fritz</div>
+        <div class="pick-meta">37.3%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Taylor Fritz</div>
+        <div class="pick-meta">24.9%</div>
+    </div>
+    </td><td rowspan="16">
+    <div class="winner-card">
+        <div class="round-label">QF</div>
+        <div class="winner-name">Alexander Zverev</div>
+        <div class="pick-meta">37.8%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Patrick Kypson</div>
+        <div class="picked">Mackenzie McDonald</div>
+        <div class="pick-meta">Pick: <b>Mackenzie McDonald</b> · 63.9%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Benjamin Bonzi</div>
+        <div class="picked">Gabriel Diallo</div>
+        <div class="pick-meta">Pick: <b>Gabriel Diallo</b> · 51.2%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Tomas Martin Etcheverry</div>
+        <div class="pick-meta">28.8%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Lorenzo Sonego</div>
+        <div class="picked">Tomas Martin Etcheverry</div>
+        <div class="pick-meta">Pick: <b>Tomas Martin Etcheverry</b> · 52.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Frances Tiafoe</div>
+        <div class="not-picked">Terence Atmane</div>
+        <div class="pick-meta">Pick: <b>Frances Tiafoe</b> · 75.2%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Frances Tiafoe</div>
+        <div class="pick-meta">58.4%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Alexander Bublik</div>
+        <div class="pick-meta">43.9%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Vit Kopriva</div>
+        <div class="not-picked">Jan Choinski</div>
+        <div class="pick-meta">Pick: <b>Vit Kopriva</b> · 58.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Kyrian Jacquet</div>
+        <div class="picked">Vilius Gaubas</div>
+        <div class="pick-meta">Pick: <b>Vilius Gaubas</b> · 53.1%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Alexander Bublik</div>
+        <div class="pick-meta">71.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Thanasi Kokkinakis</div>
+        <div class="picked">Alexander Bublik</div>
+        <div class="pick-meta">Pick: <b>Alexander Bublik</b> · 87.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Jiri Lehecka</div>
+        <div class="not-picked">Alexei Popyrin</div>
+        <div class="pick-meta">Pick: <b>Jiri Lehecka</b> · 71.4%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Jiri Lehecka</div>
+        <div class="pick-meta">51.7%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Jiri Lehecka</div>
+        <div class="pick-meta">30.5%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Alexander Zverev</div>
+        <div class="pick-meta">52.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Alex Molcan</div>
+        <div class="not-picked">Daniel Altmaier</div>
+        <div class="pick-meta">Pick: <b>Alex Molcan</b> · 54.4%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Alex Michelsen</div>
+        <div class="not-picked">Jacob Fearnley</div>
+        <div class="pick-meta">Pick: <b>Alex Michelsen</b> · 65.8%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Francisco Cerundolo</div>
+        <div class="pick-meta">46.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Jaume Munar</div>
+        <div class="picked">Francisco Cerundolo</div>
+        <div class="pick-meta">Pick: <b>Francisco Cerundolo</b> · 69.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Matteo Arnaldi</div>
+        <div class="picked">Quentin Halys</div>
+        <div class="pick-meta">Pick: <b>Quentin Halys</b> · 54.4%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Corentin Moutet</div>
+        <div class="pick-meta">31.4%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Alexander Zverev</div>
+        <div class="pick-meta">67.8%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Corentin Moutet</div>
+        <div class="not-picked">Marcos Giron</div>
+        <div class="pick-meta">Pick: <b>Corentin Moutet</b> · 53.1%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Valentin Royer</div>
+        <div class="not-picked">Harry Wendelken</div>
+        <div class="pick-meta">Pick: <b>Valentin Royer</b> · 70.0%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Alexander Zverev</div>
+        <div class="pick-meta">79.5%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Alexander Blockx</div>
+        <div class="picked">Alexander Zverev</div>
+        <div class="pick-meta">Pick: <b>Alexander Zverev</b> · 87.1%</div>
+    </div>
+    </td></tr>
+            </tbody>
+        </table>
+    </section>
+    
+    </article>
+    
+
+    <article class="bracket-section" id="Wimbledon_2026_top_3_champion">
+        <div class="bracket-header">
+            <div>
+                <h2>Wimbledon_2026_top_3_champion</h2>
+                <p>Champion constraint rank #3: <b>Alexander Zverev</b> (12.2%)</p>
+            </div>
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <span>Champion</span>
+                    <b>Alexander Zverev</b>
+                </div>
+                <div class="summary-card">
+                    <span>Expected score</span>
+                    <b>1920.7</b>
+                </div>
+            </div>
+        </div>
+
+        
+    <section class="late-rounds">
+        <h3>Final Four Path</h3>
+        <div class="late-grid">
+            <div>
+                <div class="mini-heading">Semifinal 1</div>
+                
+    <div class="match-card">
+        <div class="picked">Jannik Sinner</div>
+        <div class="not-picked">Novak Djokovic</div>
+        <div class="pick-meta">Pick: <b>Jannik Sinner</b> · 47.8%</div>
+    </div>
+    
+            </div>
+            <div>
+                <div class="mini-heading">Semifinal 2</div>
+                
+    <div class="match-card">
+        <div class="not-picked">Alex de Minaur</div>
+        <div class="picked">Alexander Zverev</div>
+        <div class="pick-meta">Pick: <b>Alexander Zverev</b> · 26.9%</div>
+    </div>
+    
+            </div>
+            <div>
+                <div class="mini-heading">Final</div>
+                
+    <div class="match-card">
+        <div class="not-picked">Jannik Sinner</div>
+        <div class="picked">Alexander Zverev</div>
+        <div class="pick-meta">Pick: <b>Alexander Zverev</b> · 12.2%</div>
+    </div>
+    
+            </div>
+            <div>
+                <div class="mini-heading">Champion</div>
+                
+    <div class="winner-card">
+        
+        <div class="winner-name">Alexander Zverev</div>
+        <div class="pick-meta">12.2%</div>
+    </div>
+    
+            </div>
+        </div>
+    </section>
+    
+
+        
+    <section class="quarter-section">
+        <h3>Quarter 1</h3>
+        <table class="bracket-table">
+            <thead>
+                <tr>
+                    <th>Round 1</th>
+                    <th>Round 2</th>
+                    <th>Round 3</th>
+                    <th>Round 4</th>
+                    <th>Quarterfinalist</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>
+    <div class="match-card">
+        <div class="picked">Jannik Sinner</div>
+        <div class="not-picked">Miomir Kecmanovic</div>
+        <div class="pick-meta">Pick: <b>Jannik Sinner</b> · 93.3%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Jannik Sinner</div>
+        <div class="pick-meta">87.2%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Jannik Sinner</div>
+        <div class="pick-meta">82.0%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Jannik Sinner</div>
+        <div class="pick-meta">75.3%</div>
+    </div>
+    </td><td rowspan="16">
+    <div class="winner-card">
+        <div class="round-label">QF</div>
+        <div class="winner-name">Jannik Sinner</div>
+        <div class="pick-meta">63.0%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Nuno Borges</div>
+        <div class="not-picked">Tristan Boyer</div>
+        <div class="pick-meta">Pick: <b>Nuno Borges</b> · 67.5%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Aleksandar Vukic</div>
+        <div class="picked">Jenson Brooksby</div>
+        <div class="pick-meta">Pick: <b>Jenson Brooksby</b> · 57.7%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Ignacio Buse</div>
+        <div class="pick-meta">36.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Emilio Nava</div>
+        <div class="picked">Ignacio Buse</div>
+        <div class="pick-meta">Pick: <b>Ignacio Buse</b> · 66.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Rafael Jodar</div>
+        <div class="not-picked">Felix Gill</div>
+        <div class="pick-meta">Pick: <b>Rafael Jodar</b> · 70.6%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Rafael Jodar</div>
+        <div class="pick-meta">38.3%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Luciano Darderi</div>
+        <div class="pick-meta">31.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Denis Shapovalov</div>
+        <div class="not-picked">Pablo Carreno Busta</div>
+        <div class="pick-meta">Pick: <b>Denis Shapovalov</b> · 53.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Shintaro Mochizuki</div>
+        <div class="not-picked">Max Basing</div>
+        <div class="pick-meta">Pick: <b>Shintaro Mochizuki</b> · 53.7%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Luciano Darderi</div>
+        <div class="pick-meta">51.0%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Ethan Quinn</div>
+        <div class="picked">Luciano Darderi</div>
+        <div class="pick-meta">Pick: <b>Luciano Darderi</b> · 65.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Casper Ruud</div>
+        <div class="not-picked">Hubert Hurkacz</div>
+        <div class="pick-meta">Pick: <b>Casper Ruud</b> · 58.3%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Casper Ruud</div>
+        <div class="pick-meta">40.2%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Tommy Paul</div>
+        <div class="pick-meta">45.8%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Tommy Paul</div>
+        <div class="pick-meta">26.3%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Hamad Medjedovic</div>
+        <div class="not-picked">Sebastian Ofner</div>
+        <div class="pick-meta">Pick: <b>Hamad Medjedovic</b> · 60.1%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Soonwoo Kwon</div>
+        <div class="picked">Martin Landaluce</div>
+        <div class="pick-meta">Pick: <b>Martin Landaluce</b> · 53.4%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Tommy Paul</div>
+        <div class="pick-meta">69.9%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Alexandre Muller</div>
+        <div class="picked">Tommy Paul</div>
+        <div class="pick-meta">Pick: <b>Tommy Paul</b> · 84.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Brandon Nakashima</div>
+        <div class="not-picked">Jack Pinnington Jones</div>
+        <div class="pick-meta">Pick: <b>Brandon Nakashima</b> · 80.2%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Brandon Nakashima</div>
+        <div class="pick-meta">54.8%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Daniil Medvedev</div>
+        <div class="pick-meta">41.3%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Jan-Lennard Struff</div>
+        <div class="not-picked">Sebastian Baez</div>
+        <div class="pick-meta">Pick: <b>Jan-Lennard Struff</b> · 58.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Camilo Ugo Carabelli</div>
+        <div class="picked">Daniel Merida</div>
+        <div class="pick-meta">Pick: <b>Daniel Merida</b> · 53.5%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Daniil Medvedev</div>
+        <div class="pick-meta">58.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Marin Cilic</div>
+        <div class="picked">Daniil Medvedev</div>
+        <div class="pick-meta">Pick: <b>Daniil Medvedev</b> · 68.9%</div>
+    </div>
+    </td></tr>
+            </tbody>
+        </table>
+    </section>
+    
+
+    <section class="quarter-section">
+        <h3>Quarter 2</h3>
+        <table class="bracket-table">
+            <thead>
+                <tr>
+                    <th>Round 1</th>
+                    <th>Round 2</th>
+                    <th>Round 3</th>
+                    <th>Round 4</th>
+                    <th>Quarterfinalist</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>
+    <div class="match-card">
+        <div class="picked">Felix Auger-Aliassime</div>
+        <div class="not-picked">Alexander Shevchenko</div>
+        <div class="pick-meta">Pick: <b>Felix Auger-Aliassime</b> · 84.2%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Felix Auger-Aliassime</div>
+        <div class="pick-meta">67.8%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Felix Auger-Aliassime</div>
+        <div class="pick-meta">50.3%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Felix Auger-Aliassime</div>
+        <div class="pick-meta">37.0%</div>
+    </div>
+    </td><td rowspan="16">
+    <div class="winner-card">
+        <div class="round-label">QF</div>
+        <div class="winner-name">Novak Djokovic</div>
+        <div class="pick-meta">47.1%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Adam Walton</div>
+        <div class="picked">Dino Prizmic</div>
+        <div class="pick-meta">Pick: <b>Dino Prizmic</b> · 52.1%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Adolfo Daniel Vallejo</div>
+        <div class="not-picked">Nicolas Mejia</div>
+        <div class="pick-meta">Pick: <b>Adolfo Daniel Vallejo</b> · 62.4%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Cameron Norrie</div>
+        <div class="pick-meta">57.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Michael Zheng</div>
+        <div class="picked">Cameron Norrie</div>
+        <div class="pick-meta">Pick: <b>Cameron Norrie</b> · 79.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Alejandro Davidovich Fokina</div>
+        <div class="picked">Juan Manuel Cerundolo</div>
+        <div class="pick-meta">Pick: <b>Juan Manuel Cerundolo</b> · 51.9%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Fabian Marozsan</div>
+        <div class="pick-meta">31.5%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Learner Tien</div>
+        <div class="pick-meta">38.3%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Thiago Agustin Tirante</div>
+        <div class="picked">Fabian Marozsan</div>
+        <div class="pick-meta">Pick: <b>Fabian Marozsan</b> · 52.3%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Luca Van Assche</div>
+        <div class="picked">Marton Fucsovics</div>
+        <div class="pick-meta">Pick: <b>Marton Fucsovics</b> · 61.6%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Learner Tien</div>
+        <div class="pick-meta">53.4%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Dalibor Svrcina</div>
+        <div class="picked">Learner Tien</div>
+        <div class="pick-meta">Pick: <b>Learner Tien</b> · 76.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Andrey Rublev</div>
+        <div class="not-picked">Roman Safiullin</div>
+        <div class="pick-meta">Pick: <b>Andrey Rublev</b> · 73.0%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Andrey Rublev</div>
+        <div class="pick-meta">51.7%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Andrey Rublev</div>
+        <div class="pick-meta">35.0%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Novak Djokovic</div>
+        <div class="pick-meta">58.4%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Aleksandar Kovacevic</div>
+        <div class="picked">Botic Van De Zandschulp</div>
+        <div class="pick-meta">Pick: <b>Botic Van De Zandschulp</b> · 61.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Jesper de Jong</div>
+        <div class="picked">Rinky Hijikata</div>
+        <div class="pick-meta">Pick: <b>Rinky Hijikata</b> · 54.9%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Joao Fonseca</div>
+        <div class="pick-meta">41.4%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Roberto Bautista Agut</div>
+        <div class="picked">Joao Fonseca</div>
+        <div class="pick-meta">Pick: <b>Joao Fonseca</b> · 61.1%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Arthur Rinderknech</div>
+        <div class="not-picked">Oliver Tarvet</div>
+        <div class="pick-meta">Pick: <b>Arthur Rinderknech</b> · 88.4%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Arthur Rinderknech</div>
+        <div class="pick-meta">64.6%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Novak Djokovic</div>
+        <div class="pick-meta">69.9%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Marco Trungelliti</div>
+        <div class="not-picked">Martin Damm Jr</div>
+        <div class="pick-meta">Pick: <b>Marco Trungelliti</b> · 56.4%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Hugo Gaston</div>
+        <div class="picked">Stefanos Tsitsipas</div>
+        <div class="pick-meta">Pick: <b>Stefanos Tsitsipas</b> · 70.3%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Novak Djokovic</div>
+        <div class="pick-meta">79.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Yibing Wu</div>
+        <div class="picked">Novak Djokovic</div>
+        <div class="pick-meta">Pick: <b>Novak Djokovic</b> · 91.3%</div>
+    </div>
+    </td></tr>
+            </tbody>
+        </table>
+    </section>
+    
+
+    <section class="quarter-section">
+        <h3>Quarter 3</h3>
+        <table class="bracket-table">
+            <thead>
+                <tr>
+                    <th>Round 1</th>
+                    <th>Round 2</th>
+                    <th>Round 3</th>
+                    <th>Round 4</th>
+                    <th>Quarterfinalist</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>
+    <div class="match-card">
+        <div class="picked">Alex de Minaur</div>
+        <div class="not-picked">Roman Andres Burruchaga</div>
+        <div class="pick-meta">Pick: <b>Alex de Minaur</b> · 85.3%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Alex de Minaur</div>
+        <div class="pick-meta">69.7%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Alex de Minaur</div>
+        <div class="pick-meta">52.5%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Alex de Minaur</div>
+        <div class="pick-meta">37.8%</div>
+    </div>
+    </td><td rowspan="16">
+    <div class="winner-card">
+        <div class="round-label">QF</div>
+        <div class="winner-name">Alex de Minaur</div>
+        <div class="pick-meta">25.4%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Adrian Mannarino</div>
+        <div class="not-picked">Titouan Droguet</div>
+        <div class="pick-meta">Pick: <b>Adrian Mannarino</b> · 64.0%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Mattia Bellucci</div>
+        <div class="not-picked">Zachary Svajda</div>
+        <div class="pick-meta">Pick: <b>Mattia Bellucci</b> · 65.5%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Kamil Majchrzak</div>
+        <div class="pick-meta">35.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Kamil Majchrzak</div>
+        <div class="not-picked">Alejandro Tabilo</div>
+        <div class="pick-meta">Pick: <b>Kamil Majchrzak</b> · 53.8%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Karen Khachanov</div>
+        <div class="not-picked">Billy Harris</div>
+        <div class="pick-meta">Pick: <b>Karen Khachanov</b> · 73.9%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Karen Khachanov</div>
+        <div class="pick-meta">49.7%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Karen Khachanov</div>
+        <div class="pick-meta">30.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Yannick Hanfmann</div>
+        <div class="not-picked">Giovanni Mpetshi Perricard</div>
+        <div class="pick-meta">Pick: <b>Yannick Hanfmann</b> · 54.5%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Tallon Griekspoor</div>
+        <div class="not-picked">James Duckworth</div>
+        <div class="pick-meta">Pick: <b>Tallon Griekspoor</b> · 59.1%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Flavio Cobolli</div>
+        <div class="pick-meta">41.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Mariano Navone</div>
+        <div class="picked">Flavio Cobolli</div>
+        <div class="pick-meta">Pick: <b>Flavio Cobolli</b> · 63.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Jakub Mensik</div>
+        <div class="not-picked">Toby Samuel</div>
+        <div class="pick-meta">Pick: <b>Jakub Mensik</b> · 85.3%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Jakub Mensik</div>
+        <div class="pick-meta">53.0%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Arthur Fils</div>
+        <div class="pick-meta">27.3%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Ben Shelton</div>
+        <div class="pick-meta">26.9%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Dane Sweeny</div>
+        <div class="picked">Grigor Dimitrov</div>
+        <div class="pick-meta">Pick: <b>Grigor Dimitrov</b> · 75.0%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Stan Wawrinka</div>
+        <div class="picked">Matteo Berrettini</div>
+        <div class="pick-meta">Pick: <b>Matteo Berrettini</b> · 67.8%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Arthur Fils</div>
+        <div class="pick-meta">43.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Raphael Collignon</div>
+        <div class="picked">Arthur Fils</div>
+        <div class="pick-meta">Pick: <b>Arthur Fils</b> · 71.0%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Ugo Humbert</div>
+        <div class="not-picked">Zizou Bergs</div>
+        <div class="pick-meta">Pick: <b>Ugo Humbert</b> · 65.5%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Ugo Humbert</div>
+        <div class="pick-meta">50.0%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Ben Shelton</div>
+        <div class="pick-meta">43.5%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Sho Shimabukuro</div>
+        <div class="not-picked">Jaime Faria</div>
+        <div class="pick-meta">Pick: <b>Sho Shimabukuro</b> · 58.1%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Damir Dzumhur</div>
+        <div class="picked">Arthur Fery</div>
+        <div class="pick-meta">Pick: <b>Arthur Fery</b> · 52.1%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Ben Shelton</div>
+        <div class="pick-meta">63.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Otto Virtanen</div>
+        <div class="picked">Ben Shelton</div>
+        <div class="pick-meta">Pick: <b>Ben Shelton</b> · 82.4%</div>
+    </div>
+    </td></tr>
+            </tbody>
+        </table>
+    </section>
+    
+
+    <section class="quarter-section">
+        <h3>Quarter 4</h3>
+        <table class="bracket-table">
+            <thead>
+                <tr>
+                    <th>Round 1</th>
+                    <th>Round 2</th>
+                    <th>Round 3</th>
+                    <th>Round 4</th>
+                    <th>Quarterfinalist</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>
+    <div class="match-card">
+        <div class="picked">Taylor Fritz</div>
+        <div class="not-picked">Jack Draper</div>
+        <div class="pick-meta">Pick: <b>Taylor Fritz</b> · 57.5%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Taylor Fritz</div>
+        <div class="pick-meta">48.4%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Taylor Fritz</div>
+        <div class="pick-meta">37.3%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Taylor Fritz</div>
+        <div class="pick-meta">24.9%</div>
+    </div>
+    </td><td rowspan="16">
+    <div class="winner-card">
+        <div class="round-label">QF</div>
+        <div class="winner-name">Alexander Zverev</div>
+        <div class="pick-meta">37.8%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Patrick Kypson</div>
+        <div class="picked">Mackenzie McDonald</div>
+        <div class="pick-meta">Pick: <b>Mackenzie McDonald</b> · 63.9%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Benjamin Bonzi</div>
+        <div class="picked">Gabriel Diallo</div>
+        <div class="pick-meta">Pick: <b>Gabriel Diallo</b> · 51.2%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Tomas Martin Etcheverry</div>
+        <div class="pick-meta">28.8%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Lorenzo Sonego</div>
+        <div class="picked">Tomas Martin Etcheverry</div>
+        <div class="pick-meta">Pick: <b>Tomas Martin Etcheverry</b> · 52.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Frances Tiafoe</div>
+        <div class="not-picked">Terence Atmane</div>
+        <div class="pick-meta">Pick: <b>Frances Tiafoe</b> · 75.2%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Frances Tiafoe</div>
+        <div class="pick-meta">58.4%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Alexander Bublik</div>
+        <div class="pick-meta">43.9%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Vit Kopriva</div>
+        <div class="not-picked">Jan Choinski</div>
+        <div class="pick-meta">Pick: <b>Vit Kopriva</b> · 58.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Kyrian Jacquet</div>
+        <div class="picked">Vilius Gaubas</div>
+        <div class="pick-meta">Pick: <b>Vilius Gaubas</b> · 53.1%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Alexander Bublik</div>
+        <div class="pick-meta">71.6%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Thanasi Kokkinakis</div>
+        <div class="picked">Alexander Bublik</div>
+        <div class="pick-meta">Pick: <b>Alexander Bublik</b> · 87.2%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Jiri Lehecka</div>
+        <div class="not-picked">Alexei Popyrin</div>
+        <div class="pick-meta">Pick: <b>Jiri Lehecka</b> · 71.4%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Jiri Lehecka</div>
+        <div class="pick-meta">51.7%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Jiri Lehecka</div>
+        <div class="pick-meta">30.5%</div>
+    </div>
+    </td><td rowspan="8">
+    <div class="winner-card">
+        <div class="round-label">R16</div>
+        <div class="winner-name">Alexander Zverev</div>
+        <div class="pick-meta">52.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Alex Molcan</div>
+        <div class="not-picked">Daniel Altmaier</div>
+        <div class="pick-meta">Pick: <b>Alex Molcan</b> · 54.4%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Alex Michelsen</div>
+        <div class="not-picked">Jacob Fearnley</div>
+        <div class="pick-meta">Pick: <b>Alex Michelsen</b> · 65.8%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Francisco Cerundolo</div>
+        <div class="pick-meta">46.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Jaume Munar</div>
+        <div class="picked">Francisco Cerundolo</div>
+        <div class="pick-meta">Pick: <b>Francisco Cerundolo</b> · 69.7%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Matteo Arnaldi</div>
+        <div class="picked">Quentin Halys</div>
+        <div class="pick-meta">Pick: <b>Quentin Halys</b> · 54.4%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Corentin Moutet</div>
+        <div class="pick-meta">31.4%</div>
+    </div>
+    </td><td rowspan="4">
+    <div class="winner-card">
+        <div class="round-label">R32</div>
+        <div class="winner-name">Alexander Zverev</div>
+        <div class="pick-meta">67.8%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Corentin Moutet</div>
+        <div class="not-picked">Marcos Giron</div>
+        <div class="pick-meta">Pick: <b>Corentin Moutet</b> · 53.1%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="picked">Valentin Royer</div>
+        <div class="not-picked">Harry Wendelken</div>
+        <div class="pick-meta">Pick: <b>Valentin Royer</b> · 70.0%</div>
+    </div>
+    </td><td rowspan="2">
+    <div class="winner-card">
+        <div class="round-label">R64</div>
+        <div class="winner-name">Alexander Zverev</div>
+        <div class="pick-meta">79.5%</div>
+    </div>
+    </td></tr><tr><td>
+    <div class="match-card">
+        <div class="not-picked">Alexander Blockx</div>
+        <div class="picked">Alexander Zverev</div>
+        <div class="pick-meta">Pick: <b>Alexander Zverev</b> · 87.1%</div>
+    </div>
+    </td></tr>
+            </tbody>
+        </table>
+    </section>
+    
+    </article>
+    
+</main>
+</body>
+</html>

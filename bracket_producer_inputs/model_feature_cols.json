@@ -1,0 +1,16 @@
+[
+  "elo_diff",
+  "surface_elo_diff",
+  "score_elo_diff",
+  "score_surface_elo_diff",
+  "rank_diff",
+  "log_rank_points_diff",
+  "last10_win_pct_pre_diff",
+  "last20_win_pct_pre_diff",
+  "surface_last10_win_pct_pre_diff",
+  "surface_last20_win_pct_pre_diff",
+  "last10_matches_pre_diff",
+  "last20_matches_pre_diff",
+  "surface_last10_matches_pre_diff",
+  "surface_last20_matches_pre_diff"
+]

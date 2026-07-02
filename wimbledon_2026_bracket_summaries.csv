@@ -1,0 +1,4 @@
+bracket_name,tournament,year,champion_prob_rank,champion,championship_prob,optimized_expected_score
+Wimbledon_2026_top_1_champion,Wimbledon,2026,1,Jannik Sinner,0.38125837492971254,2086.8469798692545
+Wimbledon_2026_top_2_champion,Wimbledon,2026,2,Novak Djokovic,0.16756100558514078,1874.1860400722644
+Wimbledon_2026_top_3_champion,Wimbledon,2026,3,Alexander Zverev,0.12169310317111659,1920.725205943753
